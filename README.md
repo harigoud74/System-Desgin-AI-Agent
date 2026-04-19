@@ -63,7 +63,7 @@ memory-design-agent/
 |---|---|
 | Node.js | ≥ 18.0.0 |
 | MySQL | ≥ 8.0 (or MariaDB 10.6+) |
-| Anthropic API key | [console.anthropic.com](https://console.anthropic.com) |
+| Anthropic API key | GrokAi:(https://console.x.ai/home) |
 | Hindsight (self-hosted) | See below |
 
 ---
