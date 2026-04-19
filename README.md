@@ -6,8 +6,13 @@ An AI agent powered by **Hindsight long-term memory**, **Claude (Anthropic)**, *
 Every time a user submits an app idea, the agent recalls relevant past preferences, generates a full implementation blueprint, then stores new durable memories for the next session.
 
 ---
+## Linkdin Article 
+
+https://www.linkedin.com/pulse/building-system-design-ai-agent-archmind-goungoppula-hari-prasad-goud-jrvac
+
 
 ## Architecture Overview
+
 
 ```
 User Browser (HTML/CSS/JS)
