@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory-First System Design Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-mark">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">MDSА</span>
+    </div>
+    <div class="header-title-group">
+      <h1 class="site-title">Memory-First System Design Agent</h1>
+      <p class="site-subtitle">Senior AI Architect · Remembers Every Decision You've Ever Made</p>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════════════════ -->
+<main class="main-content">
+
+  <!-- INPUT PANEL -->
+  <section class="input-panel glass-card" id="inputPanel">
+    <div class="input-grid">
+
+      <!-- User ID -->
+      <div class="field-group field-sm">
+        <label class="field-label" for="userId">
+          <span class="label-icon">◈</span> Session Identity
+        </label>
+        <input
+          type="text"
+          id="userId"
+          class="field-input"
+          placeholder="e.g. demo-user-1"
+          value="demo-user-1"
+          autocomplete="off"
+        />
+        <span class="field-hint">One memory bank per identity — it persists across sessions.</span>
+      </div>
+
+      <!-- Idea textarea -->
+      <div class="field-group field-lg">
+        <label class="field-label" for="ideaInput">
+          <span class="label-icon">◈</span> App Idea
+        </label>
+        <textarea
+          id="ideaInput"
+          class="field-textarea"
+          placeholder="Describe the app you want to build in plain language. Be as detailed or as brief as you like — the agent will fill the gaps from memory and reasoning."
+          rows="5"
+        ></textarea>
+      </div>
+
+    </div>
+
+    <!-- Action bar -->
+    <div class="action-bar">
+      <button class="btn btn-ghost" id="exampleBtn" title="Load an example idea">
+        ✦ Load Example
+      </button>
+      <button class="btn btn-ghost" id="clearBtn" title="Clear results">
+        ⊘ Clear
+      </button>
+      <button class="btn btn-ghost" id="copyBtn" title="Copy full report" style="display:none">
+        ⧉ Copy Report
+      </button>
+      <div class="spacer"></div>
+      <button class="btn btn-primary" id="generateBtn">
+        <span class="btn-text">Generate Design</span>
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- Loading bar -->
+    <div class="loading-bar" id="loadingBar">
+      <div class="loading-fill"></div>
+    </div>
+    <div class="loading-status" id="loadingStatus"></div>
+  </section>
+
+
+  <!-- RESULTS CONTAINER (hidden until generated) -->
+  <div class="results-container" id="resultsContainer" style="display:none">
+
+    <!-- ── MEMORY RECALLED — Hero Section ── -->
+    <section class="result-section memory-recalled-section" id="sec-memoryRecalled">
+      <div class="section-eyebrow memory-eyebrow">
+        <span class="eyebrow-dot"></span> Memory Recalled
+      </div>
+      <h2 class="section-heading">What the Agent Already Knows About You</h2>
+      <p class="section-meta" id="memoryRecalledMeta"></p>
+      <div class="memory-grid" id="memoryRecalledGrid"></div>
+      <div class="memory-empty" id="memoryRecalledEmpty" style="display:none">
+        <span>No prior memory found — this is your first design session.</span>
+        <span class="memory-empty-sub">Memories will be created from this interaction.</span>
+      </div>
+    </section>
+
+    <!-- ── PROJECT SUMMARY ── -->
+    <section class="result-section" id="sec-projectSummary">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-blue"></span> Project Summary</div>
+      <h2 class="section-heading" id="projectTitle">—</h2>
+      <p class="section-body" id="projectSummaryText"></p>
+      <div class="stack-badge" id="techStackBadge"></div>
+    </section>
+
+    <!-- ── 3-COL ROW: Roles / Functional / Non-Functional ── -->
+    <div class="trio-grid">
+
+      <section class="result-section" id="sec-userRoles">
+        <div class="section-eyebrow"><span class="eyebrow-dot accent-amber"></span> User Roles</div>
+        <ul class="chip-list" id="userRolesList"></ul>
+      </section>
+
+      <section class="result-section" id="sec-functional">
+        <div class="section-eyebrow"><span class="eyebrow-dot accent-green"></span> Functional Requirements</div>
+        <ul class="req-list" id="functionalList"></ul>
+      </section>
+
+      <section class="result-section" id="sec-nonFunctional">
+        <div class="section-eyebrow"><span class="eyebrow-dot accent-rose"></span> Non-Functional Requirements</div>
+        <ul class="req-list" id="nonFunctionalList"></ul>
+      </section>
+
+    </div>
+
+    <!-- ── CORE FEATURES ── -->
+    <section class="result-section" id="sec-coreFeatures">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-blue"></span> Core Features</div>
+      <h2 class="section-heading">Feature Blueprint</h2>
+      <div class="features-grid" id="featuresList"></div>
+    </section>
+
+    <!-- ── SUGGESTED IMPROVEMENTS ── -->
+    <section class="result-section" id="sec-improvements">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-amber"></span> Suggested Improvements</div>
+      <h2 class="section-heading">What a Senior Architect Would Add</h2>
+      <div class="improvements-grid" id="improvementsList"></div>
+    </section>
+
+    <!-- ── SYSTEM MODULES ── -->
+    <section class="result-section" id="sec-modules">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-green"></span> System Modules</div>
+      <h2 class="section-heading">Module Architecture</h2>
+      <div class="modules-grid" id="modulesList"></div>
+    </section>
+
+    <!-- ── ARCHITECTURE FLOW ── -->
+    <section class="result-section" id="sec-architectureFlow">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-rose"></span> Architecture Flow</div>
+      <h2 class="section-heading">Request → Response Journey</h2>
+      <ol class="flow-list" id="architectureFlowList"></ol>
+    </section>
+
+    <!-- ── DATABASE ENTITIES ── -->
+    <section class="result-section" id="sec-db">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-blue"></span> Database Entities</div>
+      <h2 class="section-heading">Data Model</h2>
+      <div class="entity-grid" id="entityList"></div>
+    </section>
+
+    <!-- ── API ENDPOINTS ── -->
+    <section class="result-section" id="sec-api">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-amber"></span> API Endpoints</div>
+      <h2 class="section-heading">Contract Surface</h2>
+      <div class="endpoint-list" id="endpointList"></div>
+    </section>
+
+    <!-- ── DEVELOPMENT PLAN ── -->
+    <section class="result-section" id="sec-devPlan">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-green"></span> Development Roadmap</div>
+      <h2 class="section-heading">Phase-by-Phase Build Plan</h2>
+      <div class="phase-list" id="phaseList"></div>
+    </section>
+
+    <!-- ── DEPLOYMENT PLAN ── -->
+    <section class="result-section" id="sec-deployment">
+      <div class="section-eyebrow"><span class="eyebrow-dot accent-rose"></span> Deployment Plan</div>
+      <h2 class="section-heading">Ship It</h2>
+      <ol class="deploy-list" id="deployList"></ol>
+    </section>
+
+    <!-- ── ASSEMBLY GUIDE ── -->
+    <section class="result-section assembly-section" id="sec-assembly">
+      <div class="section-eyebrow assembly-eyebrow">
+        <span class="eyebrow-dot"></span> Assembly Guide
+      </div>
+      <h2 class="section-heading">End-to-End System Assembly</h2>
+      <p class="section-meta">How all parts connect — follow this to go from zero to running.</p>
+      <ol class="assembly-list" id="assemblyList"></ol>
+    </section>
+
+    <!-- ── MEMORY LEARNED — Hero Section ── -->
+    <section class="result-section memory-learned-section" id="sec-memoryLearned">
+      <div class="section-eyebrow memory-eyebrow">
+        <span class="eyebrow-dot"></span> Memory Learned
+      </div>
+      <h2 class="section-heading">Durable Facts Stored to Your Memory Bank</h2>
+      <p class="section-meta">These will be recalled in your next session to generate a more personalised design.</p>
+      <div class="memory-grid" id="memoryLearnedGrid"></div>
+    </section>
+
+  </div><!-- /results-container -->
+
+</main>
+
+<footer class="site-footer">
+  <span>Memory-First System Design Agent · Powered by Hindsight + Claude</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

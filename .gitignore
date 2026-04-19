@@ -1,0 +1,17 @@
+# Environment variables (contains API keys!)
+.env
+backend/.env
+.env.example
+
+# Dependencies (too large, regenerated with npm install)
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
