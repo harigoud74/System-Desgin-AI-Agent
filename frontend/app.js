@@ -22,8 +22,6 @@ let exampleIndex = 0;
 let lastReport   = null;
 
 // ── DOM REFS ──────────────────────────────────────────────────
-const userId          = () => document.getElementById('userId').value.trim();
-const idea            = () => document.getElementById('ideaInput').value.trim();
 const generateBtn     = document.getElementById('generateBtn');
 const exampleBtn      = document.getElementById('exampleBtn');
 const clearBtn        = document.getElementById('clearBtn');
